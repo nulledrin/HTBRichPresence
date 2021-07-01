@@ -21,6 +21,7 @@ Attention: `active_machine` is for showing what box you re doing now. U're using
 ![RPwithactive_machine](https://raw.githubusercontent.com/nulledrin/HTBRichPresence/main/boxicons/active_machine_screen.png)
 
 But now that works only for non-retired boxes. Also, `active_machine` may be used as fortress name
+
 `active_machine` is NOT necessary argument, you can run the script without one
 
 If you run Release Arena you have to enter `active_machine` anyway // Check features
