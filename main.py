@@ -117,7 +117,7 @@ while(True):
                     ]
                 )
 
-            except Exception as e:
+            except Exception as e: # if image doesnt exist
                 rpc.update(
                     large_image="htb_icon", 
                     large_text="HackTheBox", 
@@ -134,7 +134,7 @@ while(True):
                 )
             status = cnxn.lab_status()
             time.sleep(15)
-        else:
+        else:   # if active_machine is empty
             try:
                 rpc.update(
                     large_image="htb_icon", 
