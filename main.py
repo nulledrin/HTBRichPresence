@@ -9,12 +9,8 @@ rpc = Presence(855129833826680892)
 rpc.connect() 
 
 activebox=None
-api_token=None
-profileurl="https://app.hackthebox.eu/profile/id"
-
-if api_token is None:
-    print("enter api_token!!!")
-    sys.exit()
+api_token="rv4vpYYPmZqghlkY6a8KtTYn6YVIFYXDuVt7cv0enqy6kMuQ0Pt4BVvRNN18"
+profileurl="https://app.hackthebox.eu/profile/174509"
 
 cnxn: Connection = Connection(
     api_token=api_token,
@@ -29,28 +25,22 @@ elif "--help" in sys.argv[1]:
 else:
     amachine = sys.argv[1]
 
-print(cnxn.lab_status())
+status = cnxn.lab_status()
+print(status)
 
 if amachine is not None:
     machinelist=cnxn.machines()
     activebox = next((i for i in machinelist if i["name"]==amachine), None)
     if activebox is not None:
         idbox = "id"+str(activebox['id'])
+        id=str(activebox['id'])
         osbox = str(activebox['os'])
         print(osbox)
         namebox = str(activebox['name'])
-        if str(activebox['id']) in str(cnxn.owned_root()):
-            details = namebox+" (root)"
-        elif str(activebox['id']) in str(cnxn.owned_user()):
-            details = namebox+" (User)"
-        else:
-            details = namebox+" (foothold)"
-
-status = cnxn.lab_status()
 
 while(True):
     ts = time.time()
-    while("Fortress" in str(cnxn.lab_status())): # Fortress
+    while("Fortress" in str(status)): # Fortress
         print("Fortress")
         try:
             rpc.update(
@@ -69,9 +59,10 @@ while(True):
 
         except Exception as e:
             print(f"Cannot be displayed! Error: {e}")
+        status = cnxn.lab_status()
         time.sleep(15)
     ts = time.time()
-    while("Disconnected" in str(cnxn.lab_status())): #Disconnected
+    while("Disconnected" in str(status)): #Disconnected
         print("Disconnected")
         try:
             rpc.update(
@@ -90,13 +81,20 @@ while(True):
 
         except Exception as e:
             print(f"Cannot be displayed! Error: {e}")
+        status = cnxn.lab_status()
         time.sleep(15)
     ts = time.time()
-    while("Release" or "machine" in str(cnxn.lab_status())): # Lab or Release Arena
-        if "Disconnected" in str(cnxn.lab_status()):
+    while("Release" or "machine" in str(status)): # Lab or Release Arena
+        if "Disconnected" in str(status):
             break
         print("Lab or Arena")
         if activebox is not None:
+            if id in str(cnxn.owned_root()):
+                details = namebox+" (root)"
+            elif id in str(cnxn.owned_user()):
+                details = namebox+" (User)"
+            else:
+                details = namebox+" (foothold)"
             try:
                 rpc.update(
                     large_image=str(idbox),
@@ -105,7 +103,7 @@ while(True):
                     small_text=osbox, 
                     start=ts, 
                     # end=tsend,
-                    state="{}".format(cnxn.lab_status()[0]),  
+                    state="{}".format(status[0]),  
                     details=details,
                     buttons=[
                         {
@@ -121,7 +119,7 @@ while(True):
                     large_text="HackTheBox", 
                     start=ts, 
                     # end=tsend,
-                    state="{}".format(cnxn.lab_status()[0]),  
+                    state="{}".format(status[0]),  
                     details=details,
                     buttons=[
                         {
@@ -130,6 +128,7 @@ while(True):
                         }
                     ]
                 )
+            status = cnxn.lab_status()
             time.sleep(15)
         else:
             try:
@@ -138,7 +137,7 @@ while(True):
                     large_text="HackTheBox", 
                     start=ts,  
                     # end=tsend, 
-                    state="{}".format(cnxn.lab_status()[0]),
+                    state="{}".format(status[0]),
                     details="Status: Connected",
                     buttons=[
                         {
@@ -150,4 +149,5 @@ while(True):
 
             except Exception as e:
                 print(f"Cannot be displayed! Error: {e}")
+            status = cnxn.lab_status()
             time.sleep(15)  
