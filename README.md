@@ -16,7 +16,7 @@ And run the main script:
 python3 path/to/main.py [active_machine], [--help]
 ```
 ## Info about
-Attention: `active_machine` is for showing what box you re doing now and it's case sensitive! U're using this arg makes RP look like that:
+Attention: `active_machine` is name of box you re doing and its for showing what box you re doing now and it's case sensitive! U're using this arg makes RP look like that:
 
 ![RPwithactive_machine](https://raw.githubusercontent.com/nulledrin/HTBRichPresence/main/boxicons/active_machine_screen.png)
 
