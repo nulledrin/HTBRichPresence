@@ -9,8 +9,12 @@ rpc = Presence(855129833826680892)
 rpc.connect() 
 
 activebox=None
-api_token="rv4vpYYPmZqghlkY6a8KtTYn6YVIFYXDuVt7cv0enqy6kMuQ0Pt4BVvRNN18"
-profileurl="https://app.hackthebox.eu/profile/174509"
+api_token=None
+profileurl="https://app.hackthebox.eu/profile/id"
+
+if api_token is None:
+    print("enter api_token!!!")
+    sys.exit()
 
 cnxn: Connection = Connection(
     api_token=api_token,
