@@ -3,10 +3,14 @@ Unofficial Discord Rich Presence for HackTheBox platform
 The project is under lazy development.
 
 ## How to run
-Install requirements:
+Install requirements: // I'm gonna add this
 ```
 pip3 install -r requirements.txt
 ```
+Enter your api_key in main.py script (1 on screenshot) and your id (2 on screenshot)
+
+![idandapi](https://raw.githubusercontent.com/nulledrin/HTBRichPresence/main/boxicons/enterapikeyandid.png)
+
 And run the main script:
 ```
 python3 path/to/main.py [active_machine], [--help]
