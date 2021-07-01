@@ -9,7 +9,6 @@ import re
 
 from vpn import VPN
 from machine import Machine
-from exceptions import *
 
 class Connection(object):
 
@@ -25,6 +24,8 @@ class Connection(object):
         # Save the API key
         self.api_token: str = api_token
         
+        self.id: int = None
+
         self._cache: Dict[str, Any] = {}
         self.cache_timeout: float = 60
 
@@ -32,6 +33,7 @@ class Connection(object):
         self.analysis_path = analysis_path
 
     def _api(self, endpoint, args={}, method="post", cache=False, **kwargs) -> Dict:
+
         # If requested, attempt to cache the response for up to `self.cache_timeout` seconds
         if cache and endpoint in self._cache and method in self._cache[endpoint]:
             if (time.time() - self._cache[endpoint][method][0]) < self.cache_timeout:
@@ -40,7 +42,7 @@ class Connection(object):
         # Construct necessary parameters for request
         url = f"{Connection.BASE_URL}/api/{endpoint.lstrip('/')}"
         headers = {
-            "User-Agent": "https://github.com/nulledrin/HTBRichPresence",
+            "User-Agent": "https://github.com/nulledrin/HTBRichPresence/",
             "Authorization": f"Bearer {self.api_token}",
         }
         methods = {"post": requests.post, "get": requests.get}
@@ -51,7 +53,7 @@ class Connection(object):
             url, params=args, headers=headers, allow_redirects=False, **kwargs
         )
         if r.status_code != 200:
-            raise AuthFailure
+            pass
 
         # Grab response data
         response = r.json()
@@ -131,10 +133,12 @@ class Connection(object):
 
     def owned_user(self) -> bool:
         machines = self._api("/machines/owns", method="get", cache=True)
-        #return any([m["id"] == self.id and m["owned_user"] for m in machines])
-        return machines
+        ownedmachines = [x for x in machines if x["owned_user"] == True]
+        return ownedmachines
     
     def owned_root(self) -> bool:
+        ownedmachines=None
         machines = self._api("/machines/owns", method="get", cache=True)
-        #return any([m["id"] == self.id and m["owned_root"] for m in machines])
-        return machines
+        ownedmachines = [x for x in machines if x["owned_root"] == True]
+        return ownedmachines
+        
