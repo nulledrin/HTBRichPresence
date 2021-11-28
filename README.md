@@ -30,7 +30,7 @@ You should be connected to HTB or script show this RP:
 
 ![RPwithDisconnected](https://raw.githubusercontent.com/nulledrin/HTBRichPresence/main/boxicons/offline_screen.png)
 
-Any questions? My discord is nulledrin#0001
+Any questions? My discord is nulledrin#6576
 
 ## Features gonna be realized later
 - Show battlegrounds
